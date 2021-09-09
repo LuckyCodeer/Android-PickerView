@@ -123,6 +123,8 @@ public class WheelView extends View {
     private float CENTER_CONTENT_OFFSET;//偏移量
 
     private boolean isAlphaGradient = false; //透明度渐变
+    private int minValue;
+    private int maxValue;
 
     public WheelView(Context context) {
         this(context, null);
@@ -319,6 +321,8 @@ public class WheelView extends View {
 
     public final void setAdapter(WheelAdapter adapter) {
         this.adapter = adapter;
+        this.maxValue = this.adapter.getMaxValue();
+        this.minValue = this.adapter.getMinValue();
         reMeasure();
         invalidate();
     }
@@ -836,5 +840,13 @@ public class WheelView extends View {
     @Override
     public Handler getHandler() {
         return handler;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public int getMinValue() {
+        return minValue;
     }
 }

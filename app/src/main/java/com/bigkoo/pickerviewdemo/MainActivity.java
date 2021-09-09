@@ -63,11 +63,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getOptionData();
 
         initTimePicker();
-        initCustomTimePicker();
+/*        initCustomTimePicker();
         initLunarPicker();
         initOptionPicker();
         initCustomOptionPicker();
-        initNoLinkOptionsPicker();
+        initNoLinkOptionsPicker();*/
 
         Button btn_Time = (Button) findViewById(R.id.btn_Time);
         btn_Options = (Button) findViewById(R.id.btn_Options);
@@ -194,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void initTimePicker() {//Dialog 模式下，在底部弹出
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2000, 1, 23, 12, 10, 30);
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -208,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.i("pvTime", "onTimeSelectChanged");
                     }
                 })
-                .setType(new boolean[]{true, true, true, true, true, true})
+                .setType(new boolean[]{true, true, true, true, true, false})
                 .isDialog(true) //默认设置false ，内部实现将DecorView 作为它的父控件。
                 .addOnCancelClickListener(new View.OnClickListener() {
                     @Override
@@ -219,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setItemVisibleCount(5) //若设置偶数，实际值会加1（比如设置6，则最大可见条目为7）
                 .setLineSpacingMultiplier(2.0f)
                 .isAlphaGradient(true)
+                .setRangDate(startDate, Calendar.getInstance())
                 .build();
 
         Dialog mDialog = pvTime.getDialog();

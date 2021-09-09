@@ -44,4 +44,14 @@ public class NumericWheelAdapter implements WheelAdapter {
 		}
 
 	}
+
+	@Override
+	public int getMaxValue() {
+		return maxValue;
+	}
+
+	@Override
+	public int getMinValue() {
+		return minValue;
+	}
 }

@@ -22,4 +22,8 @@ public interface WheelAdapter<T> {
 	 * @return the maximum item length or -1
      */
 	int indexOf(T o);
+
+	int getMaxValue();
+
+	int getMinValue();
 }

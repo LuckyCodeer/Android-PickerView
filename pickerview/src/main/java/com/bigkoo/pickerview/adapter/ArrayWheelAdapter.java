@@ -41,4 +41,14 @@ public class ArrayWheelAdapter<T> implements WheelAdapter {
 		return items.indexOf(o);
 	}
 
+	@Override
+	public int getMaxValue() {
+		return 0;
+	}
+
+	@Override
+	public int getMinValue() {
+		return 0;
+	}
+
 }
