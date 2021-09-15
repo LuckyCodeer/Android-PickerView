@@ -1,5 +1,6 @@
 package com.bigkoo.pickerview.view;
 
+import android.util.Log;
 import android.view.View;
 
 import com.bigkoo.pickerview.R;
@@ -388,13 +389,21 @@ public class WheelTime {
         wv_hours.setGravity(gravity);
         //分
         wv_minutes = (WheelView) view.findViewById(R.id.min);
-        wv_minutes.setAdapter(new NumericWheelAdapter(0, endMinute));
+        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour || m < endMinute) {
+            wv_minutes.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_SECOND));
+        } else {
+            wv_minutes.setAdapter(new NumericWheelAdapter(0, endMinute));
+        }
 
         wv_minutes.setCurrentItem(m);
         wv_minutes.setGravity(gravity);
         //秒
         wv_seconds = (WheelView) view.findViewById(R.id.second);
-        wv_seconds.setAdapter(new NumericWheelAdapter(0, endSecond));
+        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour || m < endMinute || s < endSecond) {
+            wv_seconds.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_SECOND));
+        } else {
+            wv_seconds.setAdapter(new NumericWheelAdapter(0, endSecond));
+        }
 
         wv_seconds.setCurrentItem(s);
         wv_seconds.setGravity(gravity);
@@ -603,8 +612,8 @@ public class WheelTime {
 
         if (currentItem > wv_day.getAdapter().getItemsCount() - 1) {
             currentItem = wv_day.getAdapter().getItemsCount() - 1;
-            wv_day.setCurrentItem(currentItem);
         }
+        wv_day.setCurrentItem(currentItem);
     }
 
     private void setReHour() {
@@ -616,12 +625,15 @@ public class WheelTime {
             int month = calendar.get(Calendar.MONTH) + 1;
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+            int position = wv_hours.getCurrentItem();
             if (year < endYear || month < endMonth || day < endDay) {
                 wv_hours.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_HOUR));
             } else {
                 wv_hours.setAdapter(new NumericWheelAdapter(0, endHour));
-                wv_hours.setCurrentItem(wv_hours.getMaxValue());
             }
+
+            wv_hours.setCurrentItem(Math.min(position, wv_hours.getItemsCount() - 1));
+
             setReMinute();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -638,12 +650,13 @@ public class WheelTime {
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             int h = calendar.get(Calendar.HOUR_OF_DAY);
 
+            int position = wv_minutes.getCurrentItem();
             if (year < endYear || month < endMonth || day < endDay || h < endHour) {
                 wv_minutes.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_MINUTE));
             } else {
                 wv_minutes.setAdapter(new NumericWheelAdapter(0, endMinute));
-                wv_minutes.setCurrentItem(wv_minutes.getMaxValue());
             }
+            wv_minutes.setCurrentItem(Math.min(position, wv_minutes.getItemsCount() - 1));
             setReSecond();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -660,12 +673,13 @@ public class WheelTime {
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             int h = calendar.get(Calendar.HOUR_OF_DAY);
             int m = calendar.get(Calendar.MINUTE);
+            int position = wv_seconds.getCurrentItem();
             if (year < endYear || month < endMonth || day < endDay || h < endHour || m < endMinute) {
                 wv_seconds.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_SECOND));
             } else {
                 wv_seconds.setAdapter(new NumericWheelAdapter(0, endSecond));
-                wv_seconds.setCurrentItem(wv_seconds.getMaxValue());
             }
+            wv_seconds.setCurrentItem(Math.min(position, wv_seconds.getItemsCount() - 1));
         } catch (ParseException e) {
             e.printStackTrace();
         }

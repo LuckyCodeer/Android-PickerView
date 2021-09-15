@@ -96,6 +96,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.btn_Time && pvTime != null) {
             // pvTime.setDate(Calendar.getInstance());
             /* pvTime.show(); //show timePicker*/
+            initTimePicker();
+            Calendar date = Calendar.getInstance();
+            date.set(2020, 1, 23, 12, 10, 30);
+            pvTime.setDate(date);
             pvTime.show(v);//弹出时间选择器，传递参数过去，回调的时候则可以绑定此view
         } else if (v.getId() == R.id.btn_Options && pvOptions != null) {
             pvOptions.show(); //弹出条件选择器
@@ -124,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Calendar startDate = Calendar.getInstance();
         startDate.set(2014, 1, 23);
         Calendar endDate = Calendar.getInstance();
-        endDate.set(2069, 2, 28);
+//        endDate.set(2069, 2, 28);
         //时间选择器 ，自定义布局
         pvCustomLunar = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
@@ -186,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 })
-                .setType(new boolean[]{true, true, true, false, false, false})
+                .setType(new boolean[]{true, true, true, true, false, false})
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
                 .setDividerColor(Color.RED)
                 .build();
@@ -195,11 +199,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initTimePicker() {//Dialog 模式下，在底部弹出
         Calendar startDate = Calendar.getInstance();
-        startDate.set(2000, 1, 23, 12, 10, 30);
+        startDate.set(2020, 1, 23, 12, 10, 30);
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                Toast.makeText(MainActivity.this, getTime(date), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, getTime(date), Toast.LENGTH_SHORT).show();
                 Log.i("pvTime", "onTimeSelect");
 
             }
@@ -210,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.i("pvTime", "onTimeSelectChanged");
                     }
                 })
-                .setType(new boolean[]{true, true, true, true, true, false})
+                .setType(new boolean[]{true, true, true, true, true, true})
                 .isDialog(true) //默认设置false ，内部实现将DecorView 作为它的父控件。
                 .addOnCancelClickListener(new View.OnClickListener() {
                     @Override
@@ -221,7 +225,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setItemVisibleCount(5) //若设置偶数，实际值会加1（比如设置6，则最大可见条目为7）
                 .setLineSpacingMultiplier(2.0f)
                 .isAlphaGradient(true)
-                .setRangDate(startDate, Calendar.getInstance())
+//                .setDate(startDate)
+                .setRangDate(null, Calendar.getInstance())
                 .build();
 
         Dialog mDialog = pvTime.getDialog();
