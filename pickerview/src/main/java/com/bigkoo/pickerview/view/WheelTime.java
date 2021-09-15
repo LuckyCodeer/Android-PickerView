@@ -379,7 +379,7 @@ public class WheelTime {
         wv_day.setGravity(gravity);
         //时
         wv_hours = (WheelView) view.findViewById(R.id.hour);
-        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour) {
+        if (year < endYear || month + 1 < endMonth || day < endDay) {
             wv_hours.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_HOUR));
         } else {
             wv_hours.setAdapter(new NumericWheelAdapter(0, endHour));
@@ -389,7 +389,7 @@ public class WheelTime {
         wv_hours.setGravity(gravity);
         //分
         wv_minutes = (WheelView) view.findViewById(R.id.min);
-        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour || m < endMinute) {
+        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour) {
             wv_minutes.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_SECOND));
         } else {
             wv_minutes.setAdapter(new NumericWheelAdapter(0, endMinute));
@@ -399,7 +399,7 @@ public class WheelTime {
         wv_minutes.setGravity(gravity);
         //秒
         wv_seconds = (WheelView) view.findViewById(R.id.second);
-        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour || m < endMinute || s < endSecond) {
+        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour || m < endMinute) {
             wv_seconds.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_SECOND));
         } else {
             wv_seconds.setAdapter(new NumericWheelAdapter(0, endSecond));

@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             /* pvTime.show(); //show timePicker*/
             initTimePicker();
             Calendar date = Calendar.getInstance();
-            date.set(2020, 1, 23, 12, 10, 30);
+            date.set(2021, 8, 15, 14, 10, 30);
             pvTime.setDate(date);
             pvTime.show(v);//弹出时间选择器，传递参数过去，回调的时候则可以绑定此view
         } else if (v.getId() == R.id.btn_Options && pvOptions != null) {
