@@ -916,6 +916,9 @@ public class WheelTime {
             this.endMonth = endDate.get(Calendar.MONTH) + 1;
             this.startDay = startDate.get(Calendar.DAY_OF_MONTH);
             this.endDay = endDate.get(Calendar.DAY_OF_MONTH);
+            this.endHour = endDate.get(Calendar.HOUR_OF_DAY);
+            this.endMinute = endDate.get(Calendar.MINUTE);
+            this.endSecond = endDate.get(Calendar.SECOND);
         }
 
     }

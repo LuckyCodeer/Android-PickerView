@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             /* pvTime.show(); //show timePicker*/
             initTimePicker();
             Calendar date = Calendar.getInstance();
-            date.set(2021, 8, 15, 14, 10, 30);
+            date.set(2021, 8, 15, 15, 40, 30);
             pvTime.setDate(date);
             pvTime.show(v);//弹出时间选择器，传递参数过去，回调的时候则可以绑定此view
         } else if (v.getId() == R.id.btn_Options && pvOptions != null) {
@@ -199,7 +199,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initTimePicker() {//Dialog 模式下，在底部弹出
         Calendar startDate = Calendar.getInstance();
-        startDate.set(2020, 1, 23, 12, 10, 30);
+        Calendar endDate = Calendar.getInstance();
+        startDate.set(2019, 1, 23, 12, 10, 30);
+        endDate.set(2021, 1, 23, 12, 10, 30);
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -226,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setLineSpacingMultiplier(2.0f)
                 .isAlphaGradient(true)
 //                .setDate(startDate)
-                .setRangDate(null, Calendar.getInstance())
+                .setRangDate(startDate, Calendar.getInstance())
                 .build();
 
         Dialog mDialog = pvTime.getDialog();
