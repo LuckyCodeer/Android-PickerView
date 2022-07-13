@@ -2,6 +2,7 @@ package com.bigkoo.pickerview.view;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import com.bigkoo.pickerview.configure.PickerOptions;
 import com.bigkoo.pickerview.listener.ISelectTimeCallback;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -193,6 +195,35 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
     private void setTime() {
         int year, month, day, hours, minute, seconds;
         Calendar calendar = Calendar.getInstance();
+        Log.i("TAG", "===> " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
+        boolean isInRange = true;
+        if (mPickerOptions.startDate != null && mPickerOptions.endDate != null) {
+            if (calendar.getTimeInMillis() < mPickerOptions.startDate.getTimeInMillis()
+                    || calendar.getTimeInMillis() > mPickerOptions.endDate.getTimeInMillis()) {
+                isInRange = false;
+                calendar = mPickerOptions.endDate;
+            }
+        } else if (mPickerOptions.startDate != null) {
+            if (calendar.getTimeInMillis() < mPickerOptions.startDate.getTimeInMillis()) {
+                isInRange = false;
+                calendar = mPickerOptions.endDate;
+            }
+        } else if (mPickerOptions.endDate != null) {
+            if (calendar.getTimeInMillis() > mPickerOptions.endDate.getTimeInMillis()) {
+                isInRange = false;
+                calendar = mPickerOptions.endDate;
+            }
+        }
+        if (!isInRange) {
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            hours = calendar.get(Calendar.HOUR_OF_DAY);
+            minute = calendar.get(Calendar.MINUTE);
+            seconds = calendar.get(Calendar.SECOND);
+            wheelTime.setPicker(year, month, day, hours, minute, seconds);
+            return;
+        }
 
         if (mPickerOptions.date == null) {
             calendar.setTimeInMillis(System.currentTimeMillis());
