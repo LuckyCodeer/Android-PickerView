@@ -195,8 +195,10 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
     private void setTime() {
         int year, month, day, hours, minute, seconds;
         Calendar calendar = Calendar.getInstance();
-        Log.i("TAG", "===> " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
         boolean isInRange = true;
+        if (mPickerOptions.date != null) {
+            calendar.setTime(mPickerOptions.date.getTime());
+        }
         if (mPickerOptions.startDate != null && mPickerOptions.endDate != null) {
             if (calendar.getTimeInMillis() < mPickerOptions.startDate.getTimeInMillis()
                     || calendar.getTimeInMillis() > mPickerOptions.endDate.getTimeInMillis()) {
@@ -214,6 +216,7 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
                 calendar = mPickerOptions.endDate;
             }
         }
+
         if (!isInRange) {
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
