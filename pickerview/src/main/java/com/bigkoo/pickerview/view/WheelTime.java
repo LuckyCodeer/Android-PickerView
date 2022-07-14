@@ -40,6 +40,10 @@ public class WheelTime {
     private static final int DEFAULT_START_DAY = 1;
     private static final int DEFAULT_END_DAY = 31;
 
+    private static final int DEFAULT_START_HOUR = 0;
+    private static final int DEFAULT_START_MINUTE = 0;
+    private static final int DEFAULT_START_SECOND = 0;
+
     private static final int DEFAULT_END_HOUR = 23;
     private static final int DEFAULT_END_MINUTE = 59;
     private static final int DEFAULT_END_SECOND = 59;
@@ -50,6 +54,10 @@ public class WheelTime {
     private int endMonth = DEFAULT_END_MONTH;
     private int startDay = DEFAULT_START_DAY;
     private int endDay = DEFAULT_END_DAY; //表示31天的
+
+    private int startHour = DEFAULT_START_HOUR;
+    private int startMinute = DEFAULT_START_MINUTE;
+    private int startSecond = DEFAULT_START_SECOND;
 
     private int endHour = DEFAULT_END_HOUR;
     private int endMinute = DEFAULT_END_MINUTE;
@@ -379,31 +387,55 @@ public class WheelTime {
         wv_day.setGravity(gravity);
         //时
         wv_hours = (WheelView) view.findViewById(R.id.hour);
-        if (year < endYear || month + 1 < endMonth || day < endDay) {
-            wv_hours.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_HOUR));
+        int tempStartHour;
+        int tempEndHour;
+        if (year > startYear || month + 1 > startMonth || day > startDay) {
+            tempStartHour = DEFAULT_START_HOUR;
         } else {
-            wv_hours.setAdapter(new NumericWheelAdapter(0, endHour));
+            tempStartHour = startHour;
         }
+        if (year < endYear || month + 1 < endMonth || day < endDay) {
+            tempEndHour = DEFAULT_END_HOUR;
+        } else {
+            tempEndHour = endHour;
+        }
+        wv_hours.setAdapter(new NumericWheelAdapter(tempStartHour, tempEndHour));
 
         wv_hours.setCurrentItem(h);
         wv_hours.setGravity(gravity);
         //分
         wv_minutes = (WheelView) view.findViewById(R.id.min);
-        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour) {
-            wv_minutes.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_SECOND));
+        int tempStartMinute;
+        int tempEndMinute;
+        if (year > startYear || month + 1 > startMonth || day > startDay || h > startHour) {
+            tempStartMinute = DEFAULT_START_MINUTE;
         } else {
-            wv_minutes.setAdapter(new NumericWheelAdapter(0, endMinute));
+            tempStartMinute = startMinute;
         }
+        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour) {
+            tempEndMinute = DEFAULT_END_MINUTE;
+        } else {
+            tempEndMinute = endMinute;
+        }
+        wv_minutes.setAdapter(new NumericWheelAdapter(tempStartMinute, tempEndMinute));
 
         wv_minutes.setCurrentItem(m);
         wv_minutes.setGravity(gravity);
         //秒
         wv_seconds = (WheelView) view.findViewById(R.id.second);
-        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour || m < endMinute) {
-            wv_seconds.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_SECOND));
+        int tempStartSecond;
+        int tempEndSecond;
+        if (year > startYear || month + 1 > startMonth || day > startDay || h > startHour || m > startMinute) {
+            tempStartSecond = DEFAULT_START_SECOND;
         } else {
-            wv_seconds.setAdapter(new NumericWheelAdapter(0, endSecond));
+            tempStartSecond = startSecond;
         }
+        if (year < endYear || month + 1 < endMonth || day < endDay || h < endHour || m < endMinute) {
+            tempEndSecond = DEFAULT_END_SECOND;
+        } else {
+            tempEndSecond = endSecond;
+        }
+        wv_seconds.setAdapter(new NumericWheelAdapter(tempStartSecond, tempEndSecond));
 
         wv_seconds.setCurrentItem(s);
         wv_seconds.setGravity(gravity);
@@ -626,11 +658,20 @@ public class WheelTime {
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
             int position = wv_hours.getCurrentItem();
-            if (year < endYear || month < endMonth || day < endDay) {
-                wv_hours.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_HOUR));
+            int start;
+            int end;
+            if (year > startYear || month > startMonth || day > startDay) {
+                start = DEFAULT_START_HOUR;
             } else {
-                wv_hours.setAdapter(new NumericWheelAdapter(0, endHour));
+                start = startHour;
             }
+
+            if (year < endYear || month < endMonth || day < endDay) {
+                end = DEFAULT_END_HOUR;
+            } else {
+                end = endHour;
+            }
+            wv_hours.setAdapter(new NumericWheelAdapter(start, end));
 
             wv_hours.setCurrentItem(Math.min(position, wv_hours.getItemsCount() - 1));
 
@@ -649,13 +690,23 @@ public class WheelTime {
             int month = calendar.get(Calendar.MONTH) + 1;
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             int h = calendar.get(Calendar.HOUR_OF_DAY);
+            Log.i("TAG===> ", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
 
             int position = wv_minutes.getCurrentItem();
-            if (year < endYear || month < endMonth || day < endDay || h < endHour) {
-                wv_minutes.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_MINUTE));
+            int start;
+            int end;
+            if (year > startYear || month > startMonth || day > startDay || h > startHour) {
+                start = DEFAULT_START_MINUTE;
             } else {
-                wv_minutes.setAdapter(new NumericWheelAdapter(0, endMinute));
+                start = startMinute;
             }
+
+            if (year < endYear || month < endMonth || day < endDay || h < endHour) {
+                end = DEFAULT_END_MINUTE;
+            } else {
+                end = endMinute;
+            }
+            wv_minutes.setAdapter(new NumericWheelAdapter(start, end));
             wv_minutes.setCurrentItem(Math.min(position, wv_minutes.getItemsCount() - 1));
             setReSecond();
         } catch (ParseException e) {
@@ -674,11 +725,21 @@ public class WheelTime {
             int h = calendar.get(Calendar.HOUR_OF_DAY);
             int m = calendar.get(Calendar.MINUTE);
             int position = wv_seconds.getCurrentItem();
-            if (year < endYear || month < endMonth || day < endDay || h < endHour || m < endMinute) {
-                wv_seconds.setAdapter(new NumericWheelAdapter(0, DEFAULT_END_SECOND));
+
+            int start;
+            int end;
+            if (year > startYear || month > startMonth || day > startDay || h > startHour || m > startMinute) {
+                start = DEFAULT_START_SECOND;
             } else {
-                wv_seconds.setAdapter(new NumericWheelAdapter(0, endSecond));
+                start = startSecond;
             }
+
+            if (year < endYear || month < endMonth || day < endDay || h < endHour || m < endMinute) {
+                end = DEFAULT_END_SECOND;
+            } else {
+                end = endSecond;
+            }
+            wv_seconds.setAdapter(new NumericWheelAdapter(start, end));
             wv_seconds.setCurrentItem(Math.min(position, wv_seconds.getItemsCount() - 1));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -771,9 +832,9 @@ public class WheelTime {
                 sb.append((wv_year.getCurrentItem() + startYear)).append("-")
                         .append((wv_month.getCurrentItem() + startMonth)).append("-")
                         .append((wv_day.getCurrentItem() + startDay)).append(" ")
-                        .append(wv_hours.getCurrentItem()).append(":")
-                        .append(wv_minutes.getCurrentItem()).append(":")
-                        .append(wv_seconds.getCurrentItem());
+                        .append(wv_hours.getCurrentItem() + startHour).append(":")
+                        .append(wv_minutes.getCurrentItem() + startMinute).append(":")
+                        .append(wv_seconds.getCurrentItem() + startSecond);
             } else {
                 sb.append((wv_year.getCurrentItem() + startYear)).append("-")
                         .append((wv_month.getCurrentItem() + startMonth)).append("-")
@@ -891,30 +952,46 @@ public class WheelTime {
             int year = startDate.get(Calendar.YEAR);
             int month = startDate.get(Calendar.MONTH) + 1;
             int day = startDate.get(Calendar.DAY_OF_MONTH);
+            int hour = startDate.get(Calendar.HOUR_OF_DAY);
+            int minute = startDate.get(Calendar.MINUTE);
+            int second = startDate.get(Calendar.SECOND);
             if (year < endYear) {
                 this.startMonth = month;
                 this.startDay = day;
                 this.startYear = year;
+                this.startHour = hour;
+                this.startMinute = minute;
+                this.startSecond = second;
             } else if (year == endYear) {
                 if (month < endMonth) {
                     this.startMonth = month;
                     this.startDay = day;
                     this.startYear = year;
+                    this.startHour = hour;
+                    this.startMinute = minute;
+                    this.startSecond = second;
                 } else if (month == endMonth) {
                     if (day < endDay) {
                         this.startMonth = month;
                         this.startDay = day;
                         this.startYear = year;
+                        this.startHour = hour;
+                        this.startMinute = minute;
+                        this.startSecond = second;
                     }
                 }
             }
 
         } else if (startDate != null && endDate != null) {
             this.startYear = startDate.get(Calendar.YEAR);
-            this.endYear = endDate.get(Calendar.YEAR);
             this.startMonth = startDate.get(Calendar.MONTH) + 1;
-            this.endMonth = endDate.get(Calendar.MONTH) + 1;
             this.startDay = startDate.get(Calendar.DAY_OF_MONTH);
+            this.startHour = startDate.get(Calendar.HOUR_OF_DAY);
+            this.startMinute = startDate.get(Calendar.MINUTE);
+            this.startSecond = startDate.get(Calendar.SECOND);
+
+            this.endYear = endDate.get(Calendar.YEAR);
+            this.endMonth = endDate.get(Calendar.MONTH) + 1;
             this.endDay = endDate.get(Calendar.DAY_OF_MONTH);
             this.endHour = endDate.get(Calendar.HOUR_OF_DAY);
             this.endMinute = endDate.get(Calendar.MINUTE);
