@@ -1,6 +1,8 @@
 
 ## Android-PickerView
 
+起始时间和终止时间，都已支持控制到时分秒
+
 解决原库时间范围不控制时分秒的问题
 原库地址：https://github.com/Bigkoo/Android-PickerView
 
@@ -14,6 +16,6 @@ allprojects {
 	}
 
 dependencies {
-	        implementation 'com.github.LuckyCodeer.Android-PickerView:pickerview:4.2.3'
+	        implementation 'com.github.LuckyCodeer.Android-PickerView:pickerview:4.2.5'
 	}
 ```
