@@ -84,17 +84,14 @@ public class JsonDataActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_data:
-                mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-                break;
-            case R.id.btn_show:
-                if (isLoaded) {
-                    showPickerView();
-                } else {
-                    Toast.makeText(JsonDataActivity.this, "Please waiting until the data is parsed", Toast.LENGTH_SHORT).show();
-                }
-                break;
+        if (v.getId() == R.id.btn_data) {
+            mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        } else if (v.getId() == R.id.btn_show) {
+            if (isLoaded) {
+                showPickerView();
+            } else {
+                Toast.makeText(JsonDataActivity.this, "Please waiting until the data is parsed", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

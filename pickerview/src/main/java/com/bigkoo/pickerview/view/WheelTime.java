@@ -1117,4 +1117,28 @@ public class WheelTime {
         wv_minutes.setAlphaGradient(isAlphaGradient);
         wv_seconds.setAlphaGradient(isAlphaGradient);
     }
+
+    public WheelView getWv_year() {
+        return wv_year;
+    }
+
+    public WheelView getWv_month() {
+        return wv_month;
+    }
+
+    public WheelView getWv_day() {
+        return wv_day;
+    }
+
+    public WheelView getWv_hours() {
+        return wv_hours;
+    }
+
+    public WheelView getWv_minutes() {
+        return wv_minutes;
+    }
+
+    public WheelView getWv_seconds() {
+        return wv_seconds;
+    }
 }
