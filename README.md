@@ -15,7 +15,7 @@ allprojects {
 	}
 
 dependencies {
-	        implementation 'com.github.LuckyCodeer.Android-PickerView:pickerview:4.2.5'
+	        implementation 'com.github.LuckyCodeer.Android-PickerView:pickerview:4.2.8'
 	}
 ```
 [![](https://jitpack.io/v/LuckyCodeer/Android-PickerView.svg)](https://jitpack.io/#LuckyCodeer/Android-PickerView)
